@@ -5,7 +5,9 @@ import { Button } from 'ui';
 const Products = () => {
   return (
     <Layout>
-      <h1>Hi there</h1>
+      <Button>
+        <Link href={'/products/new'}>Add new product</Link>
+      </Button>
     </Layout>
   );
 };

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {clientPromise} from 'packages/lib/mongodb.ts';
+import clientPromise from 'lib';
 export default function handle(req, res) {
   const { method } = req;
   mongoose.connect(clientPromise);

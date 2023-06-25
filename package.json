@@ -13,7 +13,9 @@
     "eslint-config-custom": "*",
     "prettier": "^2.5.1",
     "tailwindcss": "^3.3.2",
-    "turbo": "latest"
+    "turbo": "latest",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.1"
   },
   "name": "ecommerce-turborepo",
   "packageManager": "npm@9.5.1",

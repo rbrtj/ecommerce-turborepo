@@ -26,7 +26,7 @@ const Products = () => {
       </Button>
       <div className="relative w-[80%] mx-auto mt-2 overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-primary dark:text-gray-400">
             <tr>
               <th className="px-6 py-3">Product name</th>
               <th className="px-6 py-3 flex justify-center">Actions</th>
@@ -36,12 +36,12 @@ const Products = () => {
             {products.map((product) => (
               <tr
                 key={product._id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                className="bg-white border-b dark:bg-primary dark:border-gray-700"
               >
                 <td className="px-6 py-4">{product.title}</td>
                 <td className="px-6 py-4 flex justify-center">
                   <Link href={'/products/edit/' + product._id}>
-                    <Button className="inline-flex gap-2">
+                    <Button variant="secondary" className="inline-flex gap-2">
                       <Edit size="16px" />
                       Edit
                     </Button>

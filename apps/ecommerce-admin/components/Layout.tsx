@@ -11,11 +11,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   if (!session) {
     return (
       <>
-        <div className="bg-blue-900 w-screen h-screen flex items-center">
+        <div className="bg-primary w-screen h-screen flex items-center">
           <div className="text-center w-full">
             <button
               onClick={() => signIn('google')}
-              className="bg-white p-2 px-4 rounded-lg"
+              className="bg-secondary p-2 px-4 rounded-lg"
             >
               Login with Google
             </button>
@@ -25,9 +25,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     );
   }
   return (
-    <div className="bg-neutral-800 min-h-screen flex">
+    <div className="bg-primary min-h-screen flex">
       <Nav />
-      <div className="bg-white flex-grow mt-2 mr-2 mb-2 rounded-lg p-4">
+      <div className="bg-secondary flex-grow mt-2 mr-2 mb-2 rounded-lg p-4">
         {children}
       </div>
     </div>

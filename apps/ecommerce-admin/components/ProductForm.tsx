@@ -16,21 +16,28 @@ const ProductForm: React.FC<ProductFormProps> = ({ product }) => {
   const [price, setPrice] = useState(product?.price ? product.price : '');
   const [goToProducts, setGoToProducts] = useState(false);
   const router = useRouter();
-  const createProduct = async (ev) => {
+  const saveProduct = async (ev) => {
     ev.preventDefault();
     const data = {
       title,
       description,
       price,
     };
-    await axios.post('/api/products', data);
-    setGoToProducts(true);
+    if (product._id) {
+      await axios.put(`/api/products`, {
+        ...data,
+        _id: product._id,
+      });
+    } else {
+      await axios.post('/api/products', data);
+    }
   };
+  setGoToProducts(true);
   if (goToProducts) {
     router.push('/products');
   }
   return (
-    <form onSubmit={createProduct} className="flex flex-col gap-5">
+    <form onSubmit={saveProduct} className="flex flex-col gap-5">
       <h1 className="text-neutral-900 text-xl">
         {product ? 'Edit product' : 'New product'}
       </h1>

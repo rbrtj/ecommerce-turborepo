@@ -6,6 +6,7 @@ export interface ReqBody {
   title: string;
   description: string;
   price: number;
+  _id?: string;
 }
 
 export default async function handle(
@@ -31,5 +32,20 @@ export default async function handle(
       price,
     });
     res.json(productDoc);
+  }
+
+  if (method === 'PUT') {
+    const { title, description, price, _id } = req.body as ReqBody;
+    const producDoc = await Product.updateOne(
+      {
+        _id,
+      },
+      {
+        title,
+        description,
+        price,
+      }
+    );
+    res.json(producDoc);
   }
 }

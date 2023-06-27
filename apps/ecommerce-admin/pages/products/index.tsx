@@ -3,7 +3,7 @@ import { Button } from 'ui';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Layout } from '../../components/Layout';
-import { Edit } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 export interface Product {
   _id: string;
@@ -39,11 +39,17 @@ const Products = () => {
                 className="bg-white border-b dark:bg-primary dark:border-gray-700"
               >
                 <td className="px-6 py-4">{product.title}</td>
-                <td className="px-6 py-4 flex justify-center">
+                <td className="px-6 py-4 flex justify-center gap-6">
                   <Link href={'/products/edit/' + product._id}>
                     <Button variant="secondary" className="inline-flex gap-2">
                       <Edit size="16px" />
                       Edit
+                    </Button>
+                  </Link>
+                  <Link href={'/products/delete/' + product._id}>
+                    <Button variant="destructive" className="inline-flex gap-2">
+                      <Trash2 size="16px" />
+                      Delete
                     </Button>
                   </Link>
                 </td>

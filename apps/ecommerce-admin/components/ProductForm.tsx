@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Input, Label, Textarea } from 'ui';
 import { Product } from '../pages/products';
 
@@ -9,58 +9,79 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ product }) => {
-  const [title, setTitle] = useState(product?.title ? product.title : '');
-  const [description, setDescription] = useState(
-    product?.description ? product.description : ''
-  );
-  const [price, setPrice] = useState(product?.price ? product.price : '');
+  const [formData, setFormData] = useState({
+    title: product?.title || '',
+    description: product?.description || '',
+    price: product?.price || '',
+  });
   const [goToProducts, setGoToProducts] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const router = useRouter();
-  const saveProduct = async (ev) => {
-    ev.preventDefault();
-    const data = {
-      title,
-      description,
-      price,
-    };
-    if (product._id) {
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSaveProduct = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (product?._id) {
       await axios.put(`/api/products`, {
-        ...data,
+        ...formData,
         _id: product._id,
       });
     } else {
-      await axios.post('/api/products', data);
+      await axios.post('/api/products', formData);
     }
+    setGoToProducts(true);
   };
-  setGoToProducts(true);
-  if (goToProducts) {
-    router.push('/products');
-  }
+
+  useEffect(() => {
+    if (goToProducts) {
+      router.push('/products');
+    }
+  }, [goToProducts, router]);
+
+  useEffect(() => {
+    setIsValid(
+      formData.title.trim() !== '' && parseFloat(formData.price.toString()) > 0
+    );
+  }, [formData]);
+
   return (
-    <form onSubmit={saveProduct} className="flex flex-col gap-5">
+    <form onSubmit={handleSaveProduct} className="flex flex-col gap-5">
       <h1 className="text-neutral-900 text-xl">
         {product ? 'Edit product' : 'New product'}
       </h1>
       <Label>Name</Label>
       <Input
+        name="title"
         placeholder="Product name"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={formData.title}
+        onChange={handleInputChange}
+        required
       />
       <Label>Description</Label>
       <Textarea
+        name="description"
         placeholder="Product description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={formData.description}
+        onChange={handleInputChange}
       />
       <Label>Price (in USD)</Label>
       <Input
+        name="price"
         type="number"
         placeholder="Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        value={formData.price}
+        onChange={handleInputChange}
+        required
       />
-      <Button type="submit" className="w-32">
+      <Button disabled={!isValid} type="submit" className="w-32">
         Save
       </Button>
     </form>
